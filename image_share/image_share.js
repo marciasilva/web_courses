@@ -1,3 +1,4 @@
+//run on client (web browser)
 if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);

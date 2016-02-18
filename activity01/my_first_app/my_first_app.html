@@ -4,11 +4,9 @@
 
 <body>
   <h1>Hello from Brazil!</h1>
-
-  {{> hello}}
+  {{> time}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="time">
+  <p>The time now is {{date}}.</p>
 </template>
