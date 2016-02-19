@@ -6,9 +6,19 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
   		<div class="container">
     		<a class="navbar-brand" href="#">TextCircle</a>
+        <p class="navbar-text navbar-right">
+          {{> loginButtons align="right"}}
+        </p>
   		</div> <!-- / nav container -->
 	</nav> 
 	<div class="container top-margin">
+
+ <div class="row">
+      <div class="col-md-12">
+          {{> editingUsers}}
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-md-6">
           {{> editor}}
@@ -17,15 +27,11 @@
         {{> viewer}}
       </div>
     </div>
-
-    <!-- {{> date_display }} -->
-
-	</div> <!-- end container top-margin -->
+	</div>
 </body>
 
-<!-- call a template called sharejsCM -->
 <template name="editor">	
-      {{>sharejsCM docid=docid onRender=config id="editor"}}
+      {{>sharejsCM docid=docid onRender=config id="editor" mode="javascript"}}
 </template>
 
 
@@ -34,6 +40,12 @@
   </iframe>
 </template>
 
-<template name = "date_display">
-  {{current_date}} 
+<template name="editingUsers"> 
+  Editors:
+  {{#each users}}
+  <span class="label label-success">{{firstname}} </span>
+   
+  {{/each}}
 </template>
+
+
