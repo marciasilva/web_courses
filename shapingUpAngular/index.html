@@ -18,14 +18,29 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
   </head>
-
-   <body ng-controller = "StoreController as store">
-    <div class="product row">
-      <h3>
-        {{store.product.name}}
-        <em class="pull-right"> {{store.product.price}}</em>
-      </h3>
-    </div>
+      <!-- div class="product row" ng-hide="store.product.soldOut" -->
+  <body ng-controller="StoreController as store">
+    <!--  Products Container  -->
+    <div class="list-group">
+      <!--  Product Container  -->
+      <div class="list-group-item" ng-repeat="product in store.products">
+        <h3>
+          {{product.name}}
+          <em class="pull-right">{{product.price | currency}}</em>
+        </h3>
+        <!-- Image Gallery only display if the product has an image -->
+        <div class="gallery" ng-show=product.images.length>
+          <div class="img-wrap">
+            <img ng-src="{{product.images[0]}}" />
+          </div>
+          <ul class="img-thumbnails clearfix">
+            <li class="small-image pull-left thumbnail" ng-repeat="image in product.images">
+              <img ng-src="{{image}}" />
+            </li>
+          </ul>
+        </div> <!-- end image gallery-->
+      </div> <!-- end list-group-item -->
+    </div><!-- end list-group -->
   </body>
 
 
