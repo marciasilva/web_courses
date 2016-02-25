@@ -7,6 +7,25 @@
     this.products = gems;
   });
 
+  app.controller('TabController', function(){
+    this.tab = 1;
+
+    this.setTab = function(newValue){
+      this.tab = newValue;
+    };
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
+    };
+  });
+
+  app.controller('GalleryController', function(){
+    this.current = 0;
+    this.setCurrent = function(newGallery){
+      this.current = newGallery || 0;
+    };
+  });
+
   var gems = [{
       name: 'Azurite',
       description: "Some gems have hidden qualities beyond their luster, beyond their shine... Azurite is one of those gems.",
@@ -42,7 +61,7 @@
       images: [
         "images/gem-01.gif",
         "images/gem-03.gif",
-        "images/gem-04.gif"
+        "images/gem-04.gif",
       ],
       reviews: [{
         stars: 3,
@@ -66,7 +85,7 @@
       images: [
         "images/gem-06.gif",
         "images/gem-07.gif",
-        "images/gem-10.gif"
+        "images/gem-08.gif"
       ],
       reviews: [{
         stars: 1,
