@@ -10,7 +10,7 @@ Router.configure({
   layoutTemplate: 'ApplicationLayout'
 });
 
-// 'home' page
+// 'home' page -- render the navbar and the docList template
 Router.route('/', function () {
   console.log("you hit / ");
   this.render("navbar", {to:"header"});
@@ -40,6 +40,7 @@ Template.editor.helpers({
       editor.setOption("theme", "cobalt");
       editor.on("change", function(cm_editor, info){
         $("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
+        //Because on server we don't have access to the docid. 
         Meteor.call("addEditingUser", Session.get("docid"));
       });        
     }

@@ -1,0 +1,7 @@
+.ng-invalid.ng-dirty{
+	border-color : red;
+}
+//ng-dirty the bords will show up just after start typing
+.ng-valid.ng-dirty{
+  border-color : green;
+}

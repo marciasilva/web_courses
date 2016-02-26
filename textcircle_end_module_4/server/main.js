@@ -14,7 +14,7 @@ Meteor.startup(function () {
 Meteor.publish("documents", function(){
   return Documents.find({
    $or:[
-    {isPrivate:{$ne:true}}, 
+    {isPrivate:{$ne:true}}, //$ne not equal to 
     {owner:this.userId}
     ] 
   });

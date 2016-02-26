@@ -39,6 +39,7 @@ Meteor.methods({
 // adding editors to a document
   addEditingUser:function(docid){
     var doc, user, eusers;
+    //when running in the server I don't have access to the session, so it is necessary the docid parameter
     doc = Documents.findOne({_id:docid});
     if (!doc){return;}// no doc give up
     if (!this.userId){return;}// no logged in user give up
