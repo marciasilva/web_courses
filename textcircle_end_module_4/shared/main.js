@@ -6,6 +6,7 @@ Meteor.methods({
   addComment:function(comment){
     console.log("addComment method running!");
     if (this.userId){// we have a user
+      //comment.cretedOn = new Date();
       comment.owner = this.userId;
         return Comments.insert(comment);
     }
