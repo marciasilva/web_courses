@@ -13,8 +13,9 @@ Router.configure({
 // 'home' page -- render the navbar and the docList template
 Router.route('/', function () {
   console.log("you hit / ");
-  this.render("navbar", {to:"header"});
-  this.render("docList", {to:"main"});  
+  this.render("navbar_template", {to:"header"});
+  this.render("search", {to:"search"});
+  this.render()  
 });
 
 // individual document page

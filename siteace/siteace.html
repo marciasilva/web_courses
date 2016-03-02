@@ -1,0 +1,85 @@
+<head>
+  <title>siteace</title>
+</head>
+
+<body>
+
+	
+</body>
+
+<template name = "ApplicationLayout">
+	{{> yield "header"}}
+	<div class="container">
+	<div class="jumbotron">
+		{{> yield "search"}}
+		{{> yield "addSite"}}
+		{{> yield "website_list"}}
+	</div>
+	</div>
+</template>
+
+
+<template name = "website">
+	<h2> Link Details </h2>
+</template>
+
+
+<template name="website_form">
+	{{#if currentUser}}
+	<a class="btn btn-default js-toggle-website-form" href="#">
+  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+	</a>
+	{{/if}}
+	<div id="website_form" class="hidden_div">
+		<form class="js-save-website-form">
+		  <div class="form-group">
+		    <label for="url">Site address</label>
+		    <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+		  </div>
+		  <div class="form-group">
+		    <label for="title">Title</label>
+		    <input type="text" class="form-control" id="title" placeholder="Mysite">
+		  </div>
+		    <div class="form-group">
+		    <label for="description">Description</label>
+		    <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+		  </div>
+
+		  <button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+</template>
+
+
+<template name="search">
+  {{> EasySearch.Input index=sitesIndex attributes=inputAttributes }}
+
+  {{#EasySearch.IfInputEmpty index=sitesIndex }}
+    <div class="padded examples">Please, enter a text to search!</div>
+  {{else}}
+   <ol class="website">
+    {{#EasySearch.Each index=sitesIndex }}
+      {{> player}}
+    {{/EasySearch.Each}}
+  </ol>
+  {{/EasySearch.IfInputEmpty}}
+
+
+  {{#EasySearch.IfSearching index=sitesIndex }}
+  	Searching.... 
+  {{/EasySearch.IfSearching }}
+
+  {{#EasySearch.IfNoResults index=sitesIndex }}
+    <div class="padded no-results">No results found</div>
+  {{/EasySearch.IfNoResults }}
+
+  {{> EasySearch.Pagination index=sitesIndex maxPages=10 }}
+</template>
+
+<template name="player">
+  <li class="player {{selected}}">
+    <span class="name">{{url}}</span>
+    <br>
+    <span class="rating"> Description: {{description}}</span>
+  </li>
+</template>

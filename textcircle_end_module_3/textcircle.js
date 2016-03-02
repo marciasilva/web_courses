@@ -87,7 +87,7 @@ if (Meteor.isClient) {
     }    
   })
 
-  /////////
+  ////////route
   /// EVENTS
   ////////
 

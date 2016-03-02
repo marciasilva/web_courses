@@ -1,0 +1,43 @@
+<template name = "linkItem">
+
+	<br>
+	{{website.url}}
+	<br><br>
+	Description: 
+	{{website.description}}
+	<br>
+	<div class="well">
+   		 {{> insertCommentForm}}
+	</div>
+		<div class="jumbotron">
+   		 {{> commentList}}
+	</div>
+</template>
+
+<template name="commentList">
+  {{#each comments}}
+  <ul>
+    <li>{{title}} -- Author: {{owner}}
+      <p>{{body}}</p>
+    </li>
+  </ul>
+  {{/each}}
+</template>
+
+<template name="insertCommentForm2">
+  {{> quickForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
+</template>
+
+<template name="insertCommentForm">
+    {{#autoForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
+    <fieldset>
+      <legend>Comment</legend>
+      {{> afQuickField name='title'}}
+      {{> afQuickField name='body' rows=6 value="Write your comment here"}}
+      {{> afQuickField name='websiteid' value=websiteid type="hidden"}}
+      {{> afQuickField name='owner' value="Name or nickname"}}
+
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Insert</button>
+  {{/autoForm}}
+</template>

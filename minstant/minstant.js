@@ -1,6 +1,9 @@
 Chats = new Mongo.Collection("chats");
 
 if (Meteor.isClient) {
+
+  Meteor.subscribe('chats');
+
   // set up the main template the the router will use to build pages
   Router.configure({
     layoutTemplate: 'ApplicationLayout'
@@ -25,13 +28,22 @@ if (Meteor.isClient) {
                 ]};
     var chat = Chats.findOne(filter);
     if (!chat){// no chat matching the filter - need to insert a new one
-      chatId = Chats.insert({user1Id:Meteor.userId(), user2Id:otherUserId});
+      console.log('trying to insert chats');
+      Meteor.call('insertChat',Meteor.userId(), otherUserId, function(err, res){
+        if(!err){
+          chatId = res;
+        }
+        else{
+          console.log('error while insert chats');
+        }
+      });
     }
     else {// there is a chat going already - use that. 
       chatId = chat._id;
     }
     if (chatId){// looking good, save the id to the session
-      Session.set("chatId",chatId);
+      console.log('session set');
+      //Session.set("chatId",chatId);
     }
     this.render("navbar", {to:"header"});
     this.render("chat_page", {to:"main"});  
@@ -129,10 +141,17 @@ if (Meteor.isServer) {
       }
     } 
   });
+
+  Meteor.publish('chats', function(){
+    return Meteor.users.find();
+  })
 }
 
 Meteor.methods({
   updateChat : function(chat_id, chat){
     Chats.update(chat_id, chat);
+  },
+  insertChat : function(userId, otherUserId){
+    Chats.insert({user1Id:userId, user2Id:otherUserId});
   }
 })
