@@ -1,8 +1,10 @@
 Chats = new Mongo.Collection("chats");
+var chatId;
 
 if (Meteor.isClient) {
 
-  Meteor.subscribe('chats');
+    Meteor.subscribe("chats");
+    Meteor.subscribe("userData");
 
   // set up the main template the the router will use to build pages
   Router.configure({
@@ -20,30 +22,25 @@ if (Meteor.isClient) {
     // the user they want to chat to has id equal to 
     // the id sent in after /chat/... 
     var otherUserId = this.params._id;
-    // find a chat that has two users that match current er id
+    // find a chat that has two users that match current user id
     // and the requested user id
     var filter = {$or:[
                 {user1Id:Meteor.userId(), user2Id:otherUserId}, 
-                {user2Id:Meteor.userId(), user1Id:otherUserId}
+                {user1Id:otherUserId, user2Id:Meteor.userId()}
                 ]};
+
     var chat = Chats.findOne(filter);
+    
     if (!chat){// no chat matching the filter - need to insert a new one
-      console.log('trying to insert chats');
-      Meteor.call('insertChat',Meteor.userId(), otherUserId, function(err, res){
-        if(!err){
-          chatId = res;
-        }
-        else{
-          console.log('error while insert chats');
-        }
+      Meteor.call('addChat', Meteor.userId(), otherUserId, function(error, result){
+        chatId = result;
       });
     }
     else {// there is a chat going already - use that. 
       chatId = chat._id;
     }
     if (chatId){// looking good, save the id to the session
-      console.log('session set');
-      //Session.set("chatId",chatId);
+      Session.set("chatId",chatId);
     }
     this.render("navbar", {to:"header"});
     this.render("chat_page", {to:"main"});  
@@ -72,6 +69,7 @@ if (Meteor.isClient) {
     }
   })
 
+
   Template.chat_page.helpers({
     messages:function(){
       var chat = Chats.findOne({_id:Session.get("chatId")});
@@ -82,20 +80,6 @@ if (Meteor.isClient) {
     }, 
 
   })
-
-Template.chat_message.helpers({
-  getImage:function(userId){
-    user = Meteor.users.findOne({_id:userId});
-    return user.profile.avatar;
-  },
-
-  getUser : function(userId){
-    console.log('userId in chat_message: ' + userId);
-    user = Meteor.users.findOne({_id:userId});
-    return user.profile.username;
-  }
-})
-
  Template.chat_page.events({
   // this event fires when the user sends a message on the chat page
   'submit .js-send-chat':function(event){
@@ -109,6 +93,9 @@ Template.chat_message.helpers({
       if (!msgs){// no messages yet, create a new array
         msgs = [];
       }
+      var newText = parseText(event.target.chat.value);
+
+      console.log(newText);
       // is a good idea to insert data straight from the form
       // (i.e. the user) into the database?? certainly not. 
       // push adds the message to the end of the array
@@ -118,7 +105,7 @@ Template.chat_message.helpers({
       // put the messages array onto the chat object
       chat.messages = msgs;
       // update the chat object in the database.
-      Meteor.call("updateChat", chat._id, chat);
+      Meteor.call('updateChat', chat._id, chat);
     }
   }
  })
@@ -130,6 +117,19 @@ Template.chat_message.helpers({
 // and the password test123 
 
 if (Meteor.isServer) {
+
+  Meteor.publish("chats", function () {
+    return Chats.find();
+  });
+
+  Meteor.publish("userData", function () {
+    if (this.userId) {
+      return Meteor.users.find();
+    } else {
+      this.ready();
+    }
+  });
+
   Meteor.startup(function () {
     if (!Meteor.users.findOne()){
       for (var i=1;i<9;i++){
@@ -141,17 +141,19 @@ if (Meteor.isServer) {
       }
     } 
   });
-
-  Meteor.publish('chats', function(){
-    return Meteor.users.find();
-  })
 }
 
+//////
+/// Methods
+//////
 Meteor.methods({
-  updateChat : function(chat_id, chat){
-    Chats.update(chat_id, chat);
+  addChat: function (userOne, userTwo) {
+    return Chats.insert({
+      user1Id: userOne,
+      user2Id: userTwo
+    });
   },
-  insertChat : function(userId, otherUserId){
-    Chats.insert({user1Id:userId, user2Id:otherUserId});
+  updateChat: function (chatId, chat) {
+    Chats.update(chatId,chat);
   }
-})
+});

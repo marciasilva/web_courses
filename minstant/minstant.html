@@ -90,10 +90,7 @@
 
 <!-- simple template that displays a message -->
 <template name="chat_message">
-	{{getImage _id}}
-	<br/>
-	<img src="/{{profile.avatar}}" class="avatar_img">
-	{{getUser _id}} : {{text}}
+	someone said: {{text}}
 	<br>
 </template>
 
