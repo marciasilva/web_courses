@@ -1,6 +1,14 @@
 {
   "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-mocha": "*",
+    "mocha": "^2.4.5",
     "mongodb": "^2.1.7",
     "underscore": "^1.8.3"
+  },
+  "scripts": {
+    "test": "mocha d:/Personal/Web_JS_learning/edx/test/test.js",
+    "test-kitten": "mocha -R nyan d:/Personal/Web_JS_learning/edx/test/test.js",
+    "watch" : "gulp watch"
   }
 }
