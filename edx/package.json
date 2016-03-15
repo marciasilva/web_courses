@@ -1,14 +1,22 @@
 {
   "dependencies": {
+    "body-parser": "1.12.4",
+    "express": "4.12.3",
+    "http-status": "0.1.8",
+    "mongoose": "4.0.3",
+    "underscore": "1.5.2",
     "gulp": "^3.9.1",
     "gulp-mocha": "*",
-    "mocha": "^2.4.5",
-    "mongodb": "^2.1.7",
-    "underscore": "^1.8.3"
+    "mongodb": "^2.1.8",
+    "wagner-core": "0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "2.2.5",
+    "superagent": "1.2.0"
   },
   "scripts": {
     "test": "mocha d:/Personal/Web_JS_learning/edx/test/test.js",
     "test-kitten": "mocha -R nyan d:/Personal/Web_JS_learning/edx/test/test.js",
-    "watch" : "gulp watch"
+    "watch": "gulp watch"
   }
 }

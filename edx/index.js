@@ -1,5 +1,20 @@
 //top level js file
 
+
+var express = require('express');
+var wagner = require('wagner-core');
+
+require('./schemas/models')(wagner);
+
+var app = express();
+
+app.use('/api/v1', require('./api')(wagner));
+
+app.listen(3000);
+
+
+/*
+
 var fn = require('./other_file_root.js');
 fn();
 
@@ -8,12 +23,25 @@ var otherDirFn = require('./another_directory').other;
 otherDirFn();
 
 
+var server = require('./server_directory').listen;
+server();
+
+
 var _ = require('underscore');
 //each is a function from underscore that
 //executes a funtion for each ele in array
 _.each([1, 2, 3], function(v){
 	console.log(v);
 });
+
+
+//include category.js file 
+var category = require('./server_directory').cat;
+category();
+
+*/
+
+
 
 
 /////////////////////////////////////
